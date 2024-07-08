@@ -1,0 +1,154 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Zadacha1
+{
+    internal class Dish
+    {
+        public string DishID;
+        public string Name;
+        public string Category;
+        public decimal Price;
+        public bool IsAvailable;
+
+         public Dish(string dishID, string name, string category, decimal price, bool isAvailable)
+        {
+            DishID = dishID;
+            Name = name;
+            Category = category;
+            Price = price;
+            IsAvailable = isAvailable;
+        }
+        public  override string ToString()
+        {
+           return $"Dish(ID={DishID}, Name ={Name}, Category = {Category}, Price = {Price}, IsAvailable={IsAvailable})";
+    }
+}
+    public class Drink
+    {
+        public string DrinkID;
+        public string Name;
+        public string Category;
+        public decimal Price;
+        public bool IsAvailable;
+
+        public Drink(string drinkID, string name, string category, decimal price, bool isAvailable)
+        {
+            DrinkID = drinkID;
+            Name = name;
+            Category = category;
+            Price = price;
+            IsAvailable = isAvailable;
+        }
+
+        public override string ToString()
+        {
+            return $"Dish(ID={DrinkID}, Name ={Name}, Category = {Category}, Price = {Price}, IsAvailable={IsAvailable})";
+        }
+    }
+    public class Client
+    {
+        public string ClientID;
+        public string FullName;
+        public string PhoneNumber;
+        public string Email;
+
+        public Client(string clientID, string  fullName, string phoneNumber, string email)
+        {
+            ClientID = clientID;
+            FullName = fullName;
+            PhoneNumber = phoneNumber;
+            Email = email;
+            
+        }
+        public override string ToString()
+        {
+            return $"Client(ID ={ClientID}, Name ={FullName}, PhoneNumber = {PhoneNumber}, Email = {Email})";
+        }
+    }
+    public class Order
+    {
+        public string OrderID;
+        public string ClientID;
+        public List<object> OrderItems;
+        public decimal TotalPrice;
+        public DateTime OrderDate;
+        public bool IsCompleted;
+
+        public Order(string orderID, string clientID, List<object> orderItems, decimal totalPrice, DateTime orderDate, bool IsCompleted)
+        {
+            OrderID = orderID;
+            ClientID = clientID;
+            OrderItems = orderItems;
+            TotalPrice = totalPrice;
+            OrderDate = orderDate;
+            IsCompleted = IsCompleted;
+        }
+        public override string ToString()
+        {
+            string items = string.Join(",", OrderItems);
+            return $"Order(ID = {OrderID}, ClientID = {ClientID}, OrderItems = [{items}], TotalPrice ={TotalPrice}, OrderDate ={OrderDate}, IsCompleted={IsCompleted})";
+        }
+    }
+    public class Reservation
+    {
+        public string ReservationID;
+        public string ClientID;
+        public DateTime ReservationDate;
+        public int NumberOfGuests;
+        
+        public Reservation(string reservationID, string clientID, DateTime reservationDate, int numberOfGuests)
+        {
+            ReservationID = reservationID;
+            ClientID = clientID;
+            ReservationDate = reservationDate;
+            NumberOfGuests = numberOfGuests;
+
+        }
+        public override string ToString()
+        {
+
+            return $"Reservation(ID={ReservationID}, ClientID={ClientID}, ReservationDate={ReservationDate}, NumberOfGuests={NumberOfGuests})";
+        }
+        public class Restaurant
+        {
+            public List<Dish> dishes;
+            public List<Drink> drinks;
+            public List<Client> clients;
+            public List<Order> orders;
+            public List<Reservation> reservations;
+
+      public Restaurant()
+        {
+        dishes = new List<Dish>();
+         drinks = new List<Drink>();
+         clients = new List<Client>();
+         orders = new List<Order>();
+         reservations = new List<Reservation>();
+       }
+        public void AddDish(Dish dish) => dishes.Add(dish);
+         public void RemoveDish(string dishID) => dishes.RemoveAll(d => d.DishID == dishID);
+         public List<Dish> SearchDishByName(string name) => dishes.FindAll(d => d.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+         public List<Dish> ListAllDishes() => new List<Dish>(dishes);
+
+            public void AddClient(Client client) => clients.Add(client);
+            public void RemoveClient(string clientID) => clients.RemoveAll(c => c.ClientID == clientID);
+            public List<Client> SearchClientByName(string name) => clients.FindAll(c => c.FullName.Contains(name, StringComparison.OrdinalIgnoreCase));
+            public List<Client> ListAllClients() => new List<Client>(clients);
+
+            public void AddOrder(Order order) => orders.Add(order);
+            public void RemoveOrder(string orderID) => orders.RemoveAll(o => o.OrderID == orderID);
+            public List<Order> ListAllOrders() => new List<Order>(orders);
+
+            public void AddReservation(Reservation reservation) => reservations.Add(reservation);
+            public void RemoveReservation(string reservationID) => reservations.RemoveAll(r => r.ReservationID == reservationID);
+            public List<Reservation> ListAllReservations() => new List<Reservation>(reservations);
+
+            public override string ToString()
+            {
+                return $"Restaurant has {dishes.Count} dishes, {drinks.Count} drinks, {clients.Count} clients, {orders.Count} orders, and {reservations.Count} reservations.";
+            }
+        }
