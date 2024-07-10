@@ -1,20 +1,24 @@
+#Class
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zadacha1
+namespace Restaurant_Manager
 {
-    internal class Dish
-    {
-        public string DishID;
-        public string Name;
-        public string Category;
-        public decimal Price;
-        public bool IsAvailable;
+    
+    
+        public class Dish
+        {
+        public string DishID { get; set; }
+        public string Name { get; set; }
+        public string Category { get; set; }
+        public decimal Price { get; set; }
+        public bool IsAvailable { get; set; }
 
-         public Dish(string dishID, string name, string category, decimal price, bool isAvailable)
+        public Dish(string dishID, string name, string category, decimal price, bool isAvailable)
         {
             DishID = dishID;
             Name = name;
@@ -22,18 +26,16 @@ namespace Zadacha1
             Price = price;
             IsAvailable = isAvailable;
         }
-        public  override string ToString()
-        {
-           return $"Dish(ID={DishID}, Name ={Name}, Category = {Category}, Price = {Price}, IsAvailable={IsAvailable})";
     }
-}
-    public class Drink
-    {
-        public string DrinkID;
-        public string Name;
-        public string Category;
-        public decimal Price;
-        public bool IsAvailable;
+    
+
+        public class Drink
+        {
+        public string DrinkID { get; set; }
+        public string Name { get; set; }
+        public string Category { get; set; }
+        public decimal Price { get; set; }
+        public bool IsAvailable { get; set; }
 
         public Drink(string drinkID, string name, string category, decimal price, bool isAvailable)
         {
@@ -43,112 +45,456 @@ namespace Zadacha1
             Price = price;
             IsAvailable = isAvailable;
         }
-
-        public override string ToString()
-        {
-            return $"Dish(ID={DrinkID}, Name ={Name}, Category = {Category}, Price = {Price}, IsAvailable={IsAvailable})";
-        }
     }
-    public class Client
-    {
-        public string ClientID;
-        public string FullName;
-        public string PhoneNumber;
-        public string Email;
+    
 
-        public Client(string clientID, string  fullName, string phoneNumber, string email)
+   
+        public class Client
+        {
+        public string ClientID { get; set; }
+        public string FullName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+
+        public Client(string clientID, string fullName, string phoneNumber, string email)
         {
             ClientID = clientID;
             FullName = fullName;
             PhoneNumber = phoneNumber;
             Email = email;
-            
-        }
-        public override string ToString()
-        {
-            return $"Client(ID ={ClientID}, Name ={FullName}, PhoneNumber = {PhoneNumber}, Email = {Email})";
         }
     }
-    public class Order
-    {
-        public string OrderID;
-        public string ClientID;
-        public List<object> OrderItems;
-        public decimal TotalPrice;
-        public DateTime OrderDate;
-        public bool IsCompleted;
+    
 
-        public Order(string orderID, string clientID, List<object> orderItems, decimal totalPrice, DateTime orderDate, bool IsCompleted)
+        public class Order
+        {
+        public string OrderID { get; set; }
+        public string ClientID { get; set; }
+        public List<object> OrderItems { get; set; }
+        public decimal TotalPrice { get; set; }
+        public DateTime OrderDate { get; set; }
+        public bool IsCompleted { get; set; }
+
+        public Order(string orderID, string clientID, List<object> orderItems, decimal totalPrice, DateTime orderDate, bool isCompleted)
         {
             OrderID = orderID;
             ClientID = clientID;
             OrderItems = orderItems;
             TotalPrice = totalPrice;
             OrderDate = orderDate;
-            IsCompleted = IsCompleted;
-        }
-        public override string ToString()
-        {
-            string items = string.Join(",", OrderItems);
-            return $"Order(ID = {OrderID}, ClientID = {ClientID}, OrderItems = [{items}], TotalPrice ={TotalPrice}, OrderDate ={OrderDate}, IsCompleted={IsCompleted})";
+            IsCompleted = isCompleted;
         }
     }
+
     public class Reservation
     {
-        public string ReservationID;
-        public string ClientID;
-        public DateTime ReservationDate;
-        public int NumberOfGuests;
-        
-        public Reservation(string reservationID, string clientID, DateTime reservationDate, int numberOfGuests)
+        public string ReservationID { get; set; }
+        public string ClientID { get; set; }
+        public DateTime ReservationDate { get; set; }
+
+        public Reservation(string reservationID, string clientID, DateTime reservationDate)
         {
             ReservationID = reservationID;
             ClientID = clientID;
             ReservationDate = reservationDate;
-            NumberOfGuests = numberOfGuests;
-
         }
-        public override string ToString()
-        {
+    }
 
-            return $"Reservation(ID={ReservationID}, ClientID={ClientID}, ReservationDate={ReservationDate}, NumberOfGuests={NumberOfGuests})";
+    
+
+    public class Restaurant
+    {
+        private List<Dish> dishes;
+        private List<Drink> drinks;
+        private List<Client> clients;
+        private List<Order> orders;
+        private List<Reservation> reservations;
+
+        public Restaurant()
+        {
+            dishes = new List<Dish>();
+            drinks = new List<Drink>();
+            clients = new List<Client>();
+            orders = new List<Order>();
+            reservations = new List<Reservation>();
         }
-        public class Restaurant
+
+        public class Club 
         {
-            public List<Dish> dishes;
-            public List<Drink> drinks;
-            public List<Client> clients;
-            public List<Order> orders;
-            public List<Reservation> reservations;
+            public List<Dish> Dishes { get; private set; } = new List<Dish>();
+            public List<Drink> Drinks { get; private set; } = new List<Drink>();
+            public List<Client> Clients { get; private set; } = new List<Client>();
+            public List<Order> Orders { get; private set; } = new List<Order>();
+            public List<Reservation> Reservations { get; private set; } = new List<Reservation>();
 
-      public Restaurant()
-        {
-        dishes = new List<Dish>();
-         drinks = new List<Drink>();
-         clients = new List<Client>();
-         orders = new List<Order>();
-         reservations = new List<Reservation>();
-       }
-        public void AddDish(Dish dish) => dishes.Add(dish);
-         public void RemoveDish(string dishID) => dishes.RemoveAll(d => d.DishID == dishID);
-         public List<Dish> SearchDishByName(string name) => dishes.FindAll(d => d.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
-         public List<Dish> ListAllDishes() => new List<Dish>(dishes);
-
-            public void AddClient(Client client) => clients.Add(client);
-            public void RemoveClient(string clientID) => clients.RemoveAll(c => c.ClientID == clientID);
-            public List<Client> SearchClientByName(string name) => clients.FindAll(c => c.FullName.Contains(name, StringComparison.OrdinalIgnoreCase));
-            public List<Client> ListAllClients() => new List<Client>(clients);
-
-            public void AddOrder(Order order) => orders.Add(order);
-            public void RemoveOrder(string orderID) => orders.RemoveAll(o => o.OrderID == orderID);
-            public List<Order> ListAllOrders() => new List<Order>(orders);
-
-            public void AddReservation(Reservation reservation) => reservations.Add(reservation);
-            public void RemoveReservation(string reservationID) => reservations.RemoveAll(r => r.ReservationID == reservationID);
-            public List<Reservation> ListAllReservations() => new List<Reservation>(reservations);
-
-            public override string ToString()
+            public void AddDish(Dish dish)
             {
-                return $"Restaurant has {dishes.Count} dishes, {drinks.Count} drinks, {clients.Count} clients, {orders.Count} orders, and {reservations.Count} reservations.";
+                Dishes.Add(dish);
+            }
+
+            public void RemoveDish(string dishID)
+            {
+                Dishes.RemoveAll(d => d.DishID == dishID);
+            }
+
+            public List<Dish> SearchDishByName(string name)
+            {
+                return Dishes.FindAll(d => d.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+            }
+
+            public List<Dish> ListAllDishes()
+            {
+                return Dishes;
+            }
+
+            public void AddDrink(Drink drink)
+            {
+                Drinks.Add(drink);
+            }
+
+            public void RemoveDrink(string drinkID)
+            {
+                Drinks.RemoveAll(d => d.DrinkID == drinkID);
+            }
+
+            public List<Drink> SearchDrinkByName(string name)
+            {
+                return Drinks.FindAll(d => d.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+            }
+
+            public List<Drink> ListAllDrinks()
+            {
+                return Drinks;
+            }
+
+            public void RegisterClient(Client client)
+            {
+                Clients.Add(client);
+            }
+
+            public void PlaceOrder(Order order)
+            {
+                Orders.Add(order);
+            }
+
+            public void CompleteOrder(string orderID)
+            {
+                var order = Orders.Find(o => o.OrderID == orderID);
+                if (order != null)
+                {
+                    order.IsCompleted = true;
+                }
+            }
+
+            public void MakeReservation(Reservation reservation)
+            {
+                Reservations.Add(reservation);
+            }
+
+            public void CancelReservation(string reservationID)
+            {
+                Reservations.RemoveAll(r => r.ReservationID == reservationID);
+            }
+
+            public List<Order> GenerateSalesReport()
+            {
+                return Orders;
             }
         }
+
+    }
+}
+
+
+#Main code
+
+
+
+using System;
+using System.Collections.Generic;
+using Spectre.Console;
+using static Restaurant_Manager.Restaurant;
+
+namespace Restaurant_Manager
+{
+    internal class Program
+    {
+        public static Club Club { get; private set; }
+
+        static void Main(string[] args)
+        {
+            Club = new Club();
+            bool exit = false;
+
+            while (!exit)
+            {
+                Console.WriteLine("Изберете опция от менюто:");
+                Console.WriteLine("1. Добавяне на ястие");
+                Console.WriteLine("2. Премахване на ястие");
+                Console.WriteLine("3. Търсене на ястие по име");
+                Console.WriteLine("4. Списък с всички ястия");
+                Console.WriteLine("5. Добавяне на напитка");
+                Console.WriteLine("6. Премахване на напитка");
+                Console.WriteLine("7. Търсене на напитка по име");
+                Console.WriteLine("8. Списък с всички напитки");
+                Console.WriteLine("9. Регистрация на клиент");
+                Console.WriteLine("10. Поставяне на поръчка");
+                Console.WriteLine("11. Завършване на поръчка");
+                Console.WriteLine("12. Създаване на резервация");
+                Console.WriteLine("13. Отмяна на резервация");
+                Console.WriteLine("14. Генериране на отчет за продажбите");
+                Console.WriteLine("15. Изход");
+
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        AddDish();
+                        break;
+                    case "2":
+                        RemoveDish();
+                        break;
+                    case "3":
+                        SearchDishByName();
+                        break;
+                    case "4":
+                        ListAllDishes();
+                        break;
+                    case "5":
+                        AddDrink();
+                        break;
+                    case "6":
+                        RemoveDrink();
+                        break;
+                    case "7":
+                        SearchDrinkByName();
+                        break;
+                    case "8":
+                        ListAllDrinks();
+                        break;
+                    case "9":
+                        RegisterClient();
+                        break;
+                    case "10":
+                        PlaceOrder();
+                        break;
+                    case "11":
+                        CompleteOrder();
+                        break;
+                    case "12":
+                        MakeReservation();
+                        break;
+                    case "13":
+                        CancelReservation();
+                        break;
+                    case "14":
+                        GenerateSalesReport();
+                        break;
+                    case "15":
+                        exit = true;
+                        break;
+                    default:
+                        Console.WriteLine("Невалидна опция. Моля, опитайте отново.");
+                        break;
+                }
+            }
+        }
+
+        private static void AddDish()
+        {
+            Console.Write("Въведете ID на ястието: ");
+            var dishID = Console.ReadLine();
+            Console.Write("Въведете име на ястието: ");
+            var name = Console.ReadLine();
+            Console.Write("Въведете категория на ястието: ");
+            var category = Console.ReadLine();
+            Console.Write("Въведете цена на ястието: ");
+            var price = decimal.Parse(Console.ReadLine());
+            Console.Write("Ястието налично ли е (да/не)? ");
+            var isAvailable = Console.ReadLine().ToLower() == "да";
+
+            var dish = new Dish(dishID, name, category, price, isAvailable);
+            Club.AddDish(dish);
+            Console.WriteLine("Ястието беше добавено успешно.");
+        }
+
+        private static void RemoveDish()
+        {
+            Console.Write("Въведете ID на ястието за премахване: ");
+            var dishID = Console.ReadLine();
+            Club.RemoveDish(dishID);
+            Console.WriteLine("Ястието беше премахнато успешно.");
+        }
+
+        private static void SearchDishByName()
+        {
+            Console.Write("Въведете име на ястието за търсене: ");
+            var name = Console.ReadLine();
+            var dishes = Club.SearchDishByName(name);
+            foreach (var dish in dishes)
+            {
+                Console.WriteLine($"{dish.DishID}, {dish.Name}, {dish.Category}, {dish.Price:C}, {dish.IsAvailable}");
+            }
+        }
+
+        private static void ListAllDishes()
+        {
+            var dishes = Club.ListAllDishes();
+            foreach (var dish in dishes)
+            {
+                Console.WriteLine($"{dish.DishID}, {dish.Name}, {dish.Category}, {dish.Price:C}, {dish.IsAvailable}");
+            }
+        }
+
+        private static void AddDrink()
+        {
+            Console.Write("Въведете ID на напитката: ");
+            var drinkID = Console.ReadLine();
+            Console.Write("Въведете име на напитката: ");
+            var name = Console.ReadLine();
+            Console.Write("Въведете категория на напитката: ");
+            var category = Console.ReadLine();
+            Console.Write("Въведете цена на напитката: ");
+            var price = decimal.Parse(Console.ReadLine());
+            Console.Write("Напитката налична ли е (да/не)? ");
+            var isAvailable = Console.ReadLine().ToLower() == "да";
+
+            var drink = new Drink(drinkID, name, category, price, isAvailable);
+            Club.AddDrink(drink);
+            Console.WriteLine("Напитката беше добавена успешно.");
+        }
+
+        private static void RemoveDrink()
+        {
+            Console.Write("Въведете ID на напитката за премахване: ");
+            var drinkID = Console.ReadLine();
+            Club.RemoveDrink(drinkID);
+            Console.WriteLine("Напитката беше премахната успешно.");
+        }
+
+        private static void SearchDrinkByName()
+        {
+            Console.Write("Въведете име на напитката за търсене: ");
+            var name = Console.ReadLine();
+            var drinks = Club.SearchDrinkByName(name);
+            foreach (var drink in drinks)
+            {
+                Console.WriteLine($"{drink.DrinkID}, {drink.Name}, {drink.Category}, {drink.Price:C}, {drink.IsAvailable}");
+            }
+        }
+
+        private static void ListAllDrinks()
+        {
+            var drinks = Club.ListAllDrinks();
+            foreach (var drink in drinks)
+            {
+                Console.WriteLine($"{drink.DrinkID}, {drink.Name}, {drink.Category}, {drink.Price:C}, {drink.IsAvailable}");
+            }
+        }
+
+        private static void RegisterClient()
+        {
+            Console.Write("Въведете ID на клиента: ");
+            var clientID = Console.ReadLine();
+            Console.Write("Въведете име на клиента: ");
+            var fullName = Console.ReadLine();
+            Console.Write("Въведете телефонен номер на клиента: ");
+            var phoneNumber = Console.ReadLine();
+            Console.Write("Въведете email на клиента: ");
+            var email = Console.ReadLine();
+
+            var client = new Client(clientID, fullName, phoneNumber, email);
+            Club.RegisterClient(client);
+            Console.WriteLine("Клиентът беше регистриран успешно.");
+        }
+
+        private static void PlaceOrder()
+        {
+            Console.Write("Въведете ID на поръчката: ");
+            var orderID = Console.ReadLine();
+            Console.Write("Въведете ID на клиента: ");
+            var clientID = Console.ReadLine();
+
+            var orderItems = new List<object>();
+            var itemChoice = "";
+            while (itemChoice != "Готово")
+            {
+                Console.WriteLine("Добавяне на артикули към поръчката:");
+                Console.WriteLine("1. Ястие");
+                Console.WriteLine("2. Напитка");
+                Console.WriteLine("3. Готово");
+
+                itemChoice = Console.ReadLine();
+
+                switch (itemChoice)
+                {
+                    case "1":
+                        Console.Write("Въведете ID на ястието: ");
+                        var dishID = Console.ReadLine();
+                        var dish = Club.ListAllDishes().Find(d => d.DishID == dishID);
+                        if (dish != null) orderItems.Add(dish);
+                        break;
+                    case "2":
+                        Console.Write("Въведете ID на напитката: ");
+                        var drinkID = Console.ReadLine();
+                        var drink = Club.ListAllDrinks().Find(d => d.DrinkID == drinkID);
+                        if (drink != null) orderItems.Add(drink);
+                        break;
+                }
+            }
+            Console.Write("Въведете обща цена на поръчката: ");
+            var totalPrice = decimal.Parse(Console.ReadLine());
+            var orderDate = DateTime.Now;
+            var order = new Order(orderID, clientID, orderItems, totalPrice, orderDate, false);
+            Club.PlaceOrder(order);
+            Console.WriteLine("Поръчката беше поставена успешно.");
+        }
+
+        private static void CompleteOrder()
+        {
+            Console.Write("Въведете ID на поръчката за завършване: ");
+            var orderID = Console.ReadLine();
+            Club.CompleteOrder(orderID);
+            Console.WriteLine("Поръчката беше завършена успешно.");
+        }
+
+        private static void MakeReservation()
+        {
+            Console.Write("Въведете ID на резервацията: ");
+            var reservationID = Console.ReadLine();
+            Console.Write("Въведете ID на клиента: ");
+            var clientID = Console.ReadLine();
+            Console.Write("Въведете дата и час на резервацията: ");
+            var reservationDate = DateTime.Parse(Console.ReadLine());
+
+            var reservation = new Reservation(reservationID, clientID, reservationDate);
+            Club.MakeReservation(reservation);
+            Console.WriteLine("Резервацията беше създадена успешно.");
+        }
+
+        private static void CancelReservation()
+        {
+            Console.Write("Въведете ID на резервацията за отмяна: ");
+            var reservationID = Console.ReadLine();
+            Club.CancelReservation(reservationID);
+            Console.WriteLine("Резервацията беше отменена успешно.");
+        }
+
+        private static void GenerateSalesReport()
+        {
+            var orders = Club.GenerateSalesReport();
+
+            var table = new Table();
+            table.AddColumn("Order ID");
+            table.AddColumn("Client ID");
+            table.AddColumn("Total Price");
+            table.AddColumn("Order Date");
+
+            foreach (var order in orders)
+            {
+                table.AddRow(order.OrderID, order.ClientID, order.TotalPrice.ToString("C"), order.OrderDate.ToString("g"));
+            }
+
+            AnsiConsole.Write(table);
+        }
+    }
+}
