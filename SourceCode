@@ -208,8 +208,6 @@ namespace Restaurant_Manager
 
 #Main code
 
-
-
 using System;
 using System.Collections.Generic;
 using Spectre.Console;
@@ -338,11 +336,27 @@ namespace Restaurant_Manager
 
         private static void ListAllDishes()
         {
-            var dishes = Club.ListAllDishes();
-            foreach (var dish in dishes)
+          var dishes = Club.ListAllDishes();
+            var table = new Table();
+
+            table.AddColumn("Номер на ястието");
+            table.AddColumn(new TableColumn("Име на ястието").Centered());
+            table.AddColumn("Category");
+            table.AddColumn(new TableColumn("Цена").Centered());
+            table.AddColumn("Налично");
+
+            foreach(var dish in dishes)
             {
-                Console.WriteLine($"{dish.DishID}, {dish.Name}, {dish.Category}, {dish.Price:C}, {dish.IsAvailable}");
+                table.AddRow(
+           dish.DishID.ToString(),
+           dish.Name,
+           dish.Category,
+           dish.Price.ToString("C"),
+           dish.IsAvailable.ToString()
+                );
             }
+            AnsiConsole.Render(table);
+
         }
 
         private static void AddDrink()
@@ -385,10 +399,27 @@ namespace Restaurant_Manager
         private static void ListAllDrinks()
         {
             var drinks = Club.ListAllDrinks();
+            var table = new Table();
+
+            table.AddColumn("Номер на напитката");
+            table.AddColumn(new TableColumn("Име на напитката").Centered());
+            table.AddColumn("Category");
+            table.AddColumn(new TableColumn("Цена").Centered());
+            table.AddColumn("Налично");
+            
             foreach (var drink in drinks)
             {
-                Console.WriteLine($"{drink.DrinkID}, {drink.Name}, {drink.Category}, {drink.Price:C}, {drink.IsAvailable}");
+                table.AddRow(
+            drink.DrinkID.ToString(),
+            drink.Name,
+            drink.Category,
+            drink.Price.ToString("C"),
+            drink.IsAvailable.ToString()
+            );
+
             }
+            AnsiConsole.Render(table);
+
         }
 
         private static void RegisterClient()
@@ -498,3 +529,5 @@ namespace Restaurant_Manager
         }
     }
 }
+
+
